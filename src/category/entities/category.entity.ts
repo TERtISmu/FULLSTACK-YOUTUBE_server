@@ -1,3 +1,4 @@
+import { Transaction } from 'src/transaction/entities/transaction.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -7,6 +8,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -20,6 +22,11 @@ export class Category {
   @ManyToOne(() => User, (user) => user.categories)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.category, {
+    onDelete: 'CASCADE',
+  })
+  transactions: Transaction[];
 
   @CreateDateColumn()
   createdAt: Date;
